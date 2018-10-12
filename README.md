@@ -11,6 +11,11 @@ Input a medical issue and an appropriate doctor nearby will be listed.
 ## Setup/Installation Requirements
 
 * Clone directory
+
+* Create a file named ".env" in the root directory, and inside the file write your api key:
+```
+exports.apiKey=[insert api key here]
+```
 * Run "npm install" on command line.
 ```
 $ npm install
@@ -19,6 +24,8 @@ $ npm install
 ```
 $ npm run start
 ```
+
+
 
 ## Known Bugs
 
