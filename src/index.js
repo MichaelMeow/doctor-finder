@@ -10,12 +10,47 @@ $(document).ready(function(){
     const symptom = $('#symptom').val();
     const issue = new MedicalIssue(symptom);
     $('#symptom').val("");
-    let promise = issue.getDoctor(issue.symptom);
+    let promise = issue.getDoctorBySymptom(issue.symptom);
 
     promise.then(function(response) {
+      $(".results").html("");
       const body = JSON.parse(response);
-      const doctorName = body.data[0].practices[0].name;
-      $(".results").html(doctorName)
+      const dataArray = body.data;
+      for (var i = 0; i < dataArray.length; i++) {
+        const result = dataArray[i].practices[0].name;
+        $(".results").append("<li>" + result + "</li>");
+      }
+    }, function(error) {
+      const errorString = `There was an error processing your request: ${error.message}`;
+      return errorString;
+    });
+  });
+
+  $('#doctorNameButton').click(function() {
+    const doctorName = $('#doctorName').val();
+    const issue = new MedicalIssue(" ", doctorName);
+    $('#doctorName').val("");
+    let promise = issue.getDoctorByName(issue.doctorName);
+
+    promise.then(function(response) {
+      $(".doctorSearch").html("");
+      const body = JSON.parse(response);
+      const dataArray = body.data;
+      for (var i = 0; i < dataArray.length; i++) {
+
+        $(".doctorSearch").append("<ul>" + i);
+        $(".doctorSearch").append("<li>First Name: " + dataArray[i].profile.first_name + "</li>");
+        $(".doctorSearch").append("<li>Last Name: " + dataArray[i].profile.last_name + "</li>");
+        $(".doctorSearch").append("<li>Phone: " + dataArray[i].practices[0].phones[0].number + "</li>");
+        $(".doctorSearch").append("<li>Address: " + dataArray[i].practices[0].visit_address.street + "</li>");
+
+        if (dataArray[i].practices[0].website){
+          $(".doctorSearch").append("<li>Website: " + dataArray[i].practices[0].website + "</li>");
+      }
+        $(".doctorSearch").append("<li>Accepting New Patients?: " + dataArray[i].practices[0].accepts_new_patients + "</li>");
+
+        $(".doctorSearch").append("</ul>");
+      }
     }, function(error) {
       const errorString = `There was an error processing your request: ${error.message}`;
       return errorString;
