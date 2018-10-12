@@ -29,11 +29,11 @@ describe('MedicalIssue', function() {
       const body = JSON.parse(response);
       const doctorName = body.data[0].practices[0].name;
       result = doctorName;
+      expect(result).toEqual("Richard Ashton, DMD")
     }, function(error) {
       const errorString = `There was an error processing your request: ${error.message}`;
       return errorString;
     });
-    expect(result).toEqual("Richard Ashton, DMD")
   })
 
 });
